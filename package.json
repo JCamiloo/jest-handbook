@@ -5,6 +5,8 @@
     "ng": "ng",
     "start": "ng serve",
     "test": "jest",
+    "test-watch": "jest --watchAll",
+    "test-coverage": "jest --coverage",
     "build": "ng build",
     "lint": "ng lint",
     "e2e": "ng e2e"
@@ -21,6 +23,7 @@
     "@angular/router": "~11.0.0",
     "@briebug/jest-schematic": "^3.1.0",
     "rxjs": "~6.6.0",
+    "sweetalert2": "^10.14.0",
     "tslib": "^2.0.0",
     "zone.js": "~0.10.2"
   },
