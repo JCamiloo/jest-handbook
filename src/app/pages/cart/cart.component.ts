@@ -8,7 +8,6 @@ import { Book } from '../../models/book.model';
   styleUrls: ['./cart.component.scss']
 })
 export class CartComponent implements OnInit {
-
   public listCartBook: Book[] = [];
   public totalPrice = 0;
   public Math = Math;
@@ -49,6 +48,4 @@ export class CartComponent implements OnInit {
     this.listCartBook = [];
     this._bookService.removeBooksFromCart();
   }
-
-
 }
