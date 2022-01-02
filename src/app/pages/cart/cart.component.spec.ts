@@ -50,6 +50,11 @@ describe('Cart component', () => {
     bookService = fixture.debugElement.injector.get(BookService);
   });
 
+  afterEach(() => {
+    fixture.destroy();
+    jest.resetAllMocks();
+  });
+
   it('should create', () => {
     expect(component).toBeTruthy();
   });
@@ -109,5 +114,27 @@ describe('Cart component', () => {
     expect(book.amount).toBe(2);
     expect(spyUpdateAmountBook).toHaveBeenCalledTimes(1);
     expect(spyGetTotalPrice).toHaveBeenCalledTimes(1);
+  });
+
+  it('onClearBooks works correctly', () => {
+    component.listCartBook = BOOKS;
+    const spyRemoveBooksFromCart = jest.spyOn(bookService, 'removeBooksFromCart')
+    .mockImplementation(() => null);
+
+    component.onClearBooks();
+
+    expect(component.listCartBook.length).toBe(0);
+    expect(spyRemoveBooksFromCart).toHaveBeenCalledTimes(1);
+  });
+
+  it('_clearListCartBook works correctly', () => {
+    component.listCartBook = BOOKS;
+    const spyRemoveBooksFromCart = jest.spyOn(bookService, 'removeBooksFromCart')
+    .mockImplementation(() => null);
+
+    component['_clearListCartBook']();
+
+    expect(component.listCartBook.length).toBe(0);
+    expect(spyRemoveBooksFromCart).toHaveBeenCalledTimes(1);
   });
 });
