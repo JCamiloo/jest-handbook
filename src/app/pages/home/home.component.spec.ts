@@ -23,22 +23,29 @@ const BOOKS: Book[] = [
   }
 ];
 
+const bookServiceMock = {
+  getBooks: () => of(BOOKS)
+}
+
 describe('Home component', () => {
   let component: HomeComponent;
   let fixture: ComponentFixture<HomeComponent>;
-  let bookService: BookService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [HomeComponent],
       imports: [HttpClientTestingModule],
-      providers: [BookService],
+      providers: [
+        {
+          provide: BookService,
+          useValue: bookServiceMock
+        }
+      ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
     }).compileComponents();
 
     fixture = TestBed.createComponent(HomeComponent);
     component = fixture.componentInstance;
-    bookService = fixture.debugElement.injector.get(BookService);
     fixture.detectChanges();
   });
 
@@ -47,12 +54,8 @@ describe('Home component', () => {
   });
 
   it('getBook get books from the subscription', () => {
-    const spyGetBooks = jest.spyOn(bookService, 'getBooks')
-    .mockReturnValueOnce(of(BOOKS));
-
     component.getBooks();
 
-    expect(spyGetBooks).toHaveBeenCalledTimes(1);
     expect(component.listBook.length).toBeGreaterThan(0);
   });
 });
