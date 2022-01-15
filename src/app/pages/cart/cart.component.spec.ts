@@ -1,10 +1,12 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { CUSTOM_ELEMENTS_SCHEMA, DebugElement, NO_ERRORS_SCHEMA } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { By } from '@angular/platform-browser'
+
 import { BookService } from '../../services/book.service';
-import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
 import { CartComponent } from "./cart.component";
 import { Book } from '../../models/book.model';
-import { MatDialog } from '@angular/material/dialog';
 import { of } from 'rxjs';
 
 const BOOKS: Book[] = [
@@ -150,5 +152,25 @@ describe('Cart component', () => {
 
     expect(component.listCartBook.length).toBe(0);
     expect(spyRemoveBooksFromCart).toHaveBeenCalledTimes(1);
+  });
+
+  it('The title "the cart is empty" is not displayed when there is a list', () => {
+    component.listCartBook = BOOKS;
+    fixture.detectChanges();
+    
+    const debugElement: DebugElement = fixture.debugElement.query(By.css('#titleCartEmpty'));
+
+    expect(debugElement).toBeFalsy();
+  });
+
+  it('The title "the cart is empty" is displayed correctly when the list is empty', () => {
+    component.listCartBook = [];
+    fixture.detectChanges();
+    
+    const debugElement: DebugElement = fixture.debugElement.query(By.css('#titleCartEmpty'));
+    const element: HTMLElement = debugElement.nativeElement;
+
+    expect(debugElement).toBeTruthy();
+    expect(element.innerHTML).toContain('The cart is empty');
   });
 });
